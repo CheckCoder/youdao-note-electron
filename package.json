@@ -1,0 +1,23 @@
+{
+  "name": "youdao-note-electron",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CheckCoder/youdao-note-electron.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/CheckCoder/youdao-note-electron/issues"
+  },
+  "homepage": "https://github.com/CheckCoder/youdao-note-electron#readme",
+  "devDependencies": {
+    "electron": "^11.2.0"
+  }
+}
