@@ -7,6 +7,27 @@
     <script src="./index.js"></script>
 </head>
 <body>
-    <iframe id="main" src="https://note.youdao.com/web/" frameborder="0" height="100%" width="100%">
+    <div id="container" class="vcontainer">
+        <div id="top-container" class="hcontainer">
+            <div id="main-page-top-container">
+                <!-- <div class="main-page-top-container-placeholder"></div> -->
+            </div>
+            <div id="login-page-top-container">
+            </div>
+        </div>
+        <div id="main-container">
+            <div id="loading-container" class="vontainer ac">
+                <div class="loader">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+            <iframe id="iframe-container" src="https://note.youdao.com/web/" onload="handleIframeContainerOnload()" frameborder="0">
+        </div>
+    </div>
 </body>
 </html>

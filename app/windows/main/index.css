@@ -1,5 +1,58 @@
+@import './../common.css';
+
 html, body {
     margin: 0;
     padding: 0;
     height: 100%;
+}
+
+#container {
+    height: 100%;
+    position: relative;
+}
+
+#top-container {
+    position: absolute;
+    z-index: 1;
+}
+
+#main-page-top-container {
+    position: absolute;
+    height: 50px;
+}
+
+.main-page-top-container-placeholder {
+    position: absolute;
+    -webkit-user-select: none;
+    -webkit-app-region: drag;
+    height: 100%;
+    width: 400px;
+}
+
+#login-page-top-container {
+    
+}
+
+#main-container {
+    width: 100%;
+    flex-grow: 1;
+    position: relative;
+}
+
+#loading-container {
+    width: 100%;
+    height: 100%;
+    background-color: white;
+    position: absolute;
+    visibility: visible;
+    z-index: 2;
+    opacity: 1;
+    transition:all 0.2s linear;
+}
+
+#iframe-container {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    visibility: hidden;
 }
