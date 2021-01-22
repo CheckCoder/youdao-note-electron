@@ -1,22 +1,64 @@
-const { app, Menu, BrowserWindow} = require('electron');
+const { app, BrowserWindow, ipcMain} = require('electron');
+const path = require('path');
 
-function createWindow () {
-    const win = new BrowserWindow({
-        width: 945,
-        height: 450,
-        frame: false,
-        titleBarStyle: 'hidden',
-        webPreferences: {
-            webSecurity: false
+const debug = /--debug/.test(process.argv[2]);
+
+let mainWindow = null;
+
+function initialize () {
+
+    function createWindow () {
+        const windowOptions = {
+            width: 945,
+            height: 450,
+            frame: false,
+            titleBarStyle: 'hidden',
+            webPreferences: {
+                webSecurity: false,
+                nodeIntegration: true
+            }
+        }
+    
+        mainWindow = new BrowserWindow(windowOptions);
+        mainWindow.loadURL(path.join('file://', __dirname, '/windows/main/index.html'));
+        mainWindow.maximize();
+
+        if (debug) {
+            mainWindow.webContents.openDevTools();
+        }
+    }
+
+
+    app.on('ready', () => {
+        createWindow();
+    });
+
+    app.on('window-all-closed', () => {
+        if (process.platform !== 'darwin') {
+            app.quit();
         }
     });
-    win.maximize();
-    win.loadFile('./app/windows/main/index.html');
-    win.webContents.openDevTools();
+
+    app.on('activate', () => {
+        if (mainWindow === null) {
+            createWindow();
+        }
+    });
+    
+    app.commandLine.appendSwitch('disable-site-isolation-trials');
 }
 
-app.commandLine.appendSwitch('disable-site-isolation-trials');
-app.whenReady().then(createWindow);
-// app.on('activate', () => {
-//     createWindow();
-// });
+initialize();
+
+ipcMain.handle('handleTopIconClick', (evidence, ...args) => {
+    let type = args[0];
+    switch (type) {
+        case 'minimize':
+            mainWindow.minimize();
+            break;
+        case 'close':
+            mainWindow.close();
+            mainWindow = null;
+            break;
+    }
+});
