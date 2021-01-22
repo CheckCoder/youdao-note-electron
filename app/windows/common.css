@@ -159,3 +159,40 @@
     }
 }
 /** 加载动画 end */
+
+
+/** 顶部按钮 */
+.top-icon {
+    width: 14px;
+    height: 28px;
+    padding: 0px 15px;
+    -webkit-app-region: no-drag;
+    -webkit-user-select: none;
+}
+
+.top-icon:hover {
+    background: rgba(0, 0, 0, 0.1);
+}
+
+.top-icon:active {
+    background: rgba(0, 0, 0, 0.2);;
+}
+
+.top-close-icon img {
+    width: 14px;
+    height: 14px;
+    padding: 7px 0;
+}
+
+.top-close-icon:hover img {
+    filter: invert(100%) sepia(100%) saturate(0%) hue-rotate(42deg) brightness(104%) contrast(105%);
+}
+
+.top-close-icon:hover {
+    background-color:#e81123;
+}
+
+.top-close-icon:active {
+    background-color:#d71526;
+}
+/** 顶部按钮 end */
