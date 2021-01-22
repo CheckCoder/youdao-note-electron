@@ -1,3 +1,6 @@
+const electron = require('electron');
+const { ipcRenderer } = require('electron');
+
 /**
  * 处理 iframe-container onload 事件
  */
@@ -25,7 +28,7 @@ function handleIframeContainerOnload () {
             originalAvatarElement.removeChild(originalAvatarElement.children[2]);
             originalAvatarElement.removeChild(originalAvatarElement.children[2]);
             // 设置头像框
-            setStyleFromComputedStyle(originalAvatarElement);
+            // setStyleFromComputedStyle(originalAvatarElement);
             originalAvatarElement.style.position = "relative";
             originalAvatarElement.style.right = "unset";
             getIframeContainerDocument().getElementsByClassName('own-photo')[0].style.width = '44px';
@@ -48,7 +51,7 @@ function handleIframeContainerOnload () {
             getIframeContainerDocument().getElementsByClassName('widget-menu-item')[2].style.background = ""
             // 放置头像框
             let avatarContainerElement = document.createElement('div');
-            avatarContainerElement.style.cssText = 'width:100%; display:flex; flex-direction: row; justify-content: center;top: 8px;position: relative; top:13px';
+            avatarContainerElement.style.cssText = 'width:100%; display:flex; flex-direction: row; justify-content: center;top: 8px;position: relative; top:23px';
             avatarContainerElement.appendChild(getIframeContainerDocument().getElementsByClassName('top-right')[0]);
             let createDocumentElement = getIframeContainerDocument().getElementsByClassName('create')[0];
             getIframeContainerDocument().getElementsByClassName('hd')[0].insertBefore(avatarContainerElement, createDocumentElement);
@@ -56,7 +59,7 @@ function handleIframeContainerOnload () {
             setCssForIframeContainer('.sidebar .hd{box-shadow: none; border-bottom:none}');
 
             // 设置 create top
-            setCssForIframeContainer('.sidebar .hd .create{top: 31px; border-radius: 25px; border: 1.5px solid #398dee; margin:0 20px; width:unset;display: flex; flex-direction: row;justify-content: center;}');
+            setCssForIframeContainer('.sidebar .hd .create{top: 41px; border-radius: 25px; border: 1.5px solid #398dee; margin:0 20px; width:unset;display: flex; flex-direction: row;justify-content: center;}');
             setCssForIframeContainer('.sidebar .hd .create:hover{background:#e4edf8}');
             setCssForIframeContainer('.sidebar .hd .create .arrow-down{display:none}');
             setCssForIframeContainer('.sidebar .hd .create .icon-creates{display:none}');
@@ -66,7 +69,7 @@ function handleIframeContainerOnload () {
             // 设置鼠标样式
             setCssForIframeContainer('img, a, i, span, div, li{cursor: default!important}');
             // 侧边栏下移
-            setCssForIframeContainer('.sidebar .sidebar-content{top:159px; bottom:26px;border-top: 1px solid #e0e1e5; }');
+            setCssForIframeContainer('.sidebar .sidebar-content{top:170px; bottom:26px;border-top: 1px solid #e0e1e5; }');
             // getIframeContainerDocument().getElementsByClassName('sidebar-content')[0].style.top = "160px";
             // getIframeContainerDocument().getElementsByClassName('sidebar-content')[0].style.bottom = "26px";
             // 移除 sidebar-ft
@@ -74,16 +77,18 @@ function handleIframeContainerOnload () {
 
             // 顶部留空
             // 文件列表
-            setCssForIframeContainer('.list-hd{border-bottom: none!important; top: 13px}');
-            setCssForIframeContainer('.list-bd{top: 80px!important; border-top: 1px solid #e0e1e5;}');
+            setCssForIframeContainer('.list-hd{border-bottom: none!important; top: 20px}');
+            setCssForIframeContainer('.list-bd{top: 90px!important; border-top: 1px solid #e0e1e5;}');
             // 内容区域
-            setCssForIframeContainer('.file-detail .hd{border-bottom: none!important; top: 13px}');
-            setCssForIframeContainer('.content-container{margin-top: 20px!important; border-top: 1px solid #e0e1e5;}');
+            setCssForIframeContainer('.file-detail .hd{border-bottom: none!important; top: 20px}');
+            setCssForIframeContainer('.content-container{margin-top: 30px!important; border-top: 1px solid #e0e1e5;}');
             // 设置 empty 时背景色
             setCssForIframeContainer('drag-component .empty{background-color: #ffffff}');
         }
         setElementVisibilityById('iframe-container', true);
         document.getElementById('loading-container').style.opacity = "0";
+        document.getElementById('top-grow-container').style.cssText = "-webkit-app-region: no-drag";
+        document.getElementById('top-grow-container').style.cssText = "-webkit-app-region: drag";
         setElementVisibilityById('loading-container', false);
     }, 1500);
 }
@@ -123,4 +128,8 @@ function setStyleFromComputedStyle (element) {
     for (let i = 0; i < childrenLength; i++) {
         setStyleFromComputedStyle(element.children[i]);
     }
+}
+
+function handleTopIconClick (type) {
+    ipcRenderer.invoke('handleTopIconClick', type);
 }

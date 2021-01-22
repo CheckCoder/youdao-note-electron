@@ -9,10 +9,12 @@
 <body>
     <div id="container" class="vcontainer">
         <div id="top-container" class="hcontainer">
-            <div id="main-page-top-container">
-                <!-- <div class="main-page-top-container-placeholder"></div> -->
-            </div>
-            <div id="login-page-top-container">
+            <div id="top-grow-container"></div>
+            <img src="./../../res/icon/setting.svg" class="top-icon" draggable="false">
+            <img src="./../../res/icon/window-minimize.svg" class="top-icon" draggable="false" onclick="handleTopIconClick('minimize')">
+            <img src="./../../res/icon/window-maximize.svg" class="top-icon" draggable="false">
+            <div class="top-icon top-close-icon" onclick="handleTopIconClick('close')">
+                <img src="./../../res/icon/window-close.svg" draggable="false">
             </div>
         </div>
         <div id="main-container">

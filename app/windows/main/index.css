@@ -14,20 +14,17 @@ html, body {
 
 #top-container {
     position: absolute;
-    z-index: 1;
+    width: 100%;
+    height: 30px;
+    z-index: 3;
+    /* -webkit-app-region: drag; */
+    /* -webkit-user-drag: none; */
 }
 
-#main-page-top-container {
-    position: absolute;
-    height: 50px;
-}
-
-.main-page-top-container-placeholder {
-    position: absolute;
-    -webkit-user-select: none;
+#top-grow-container {
+    flex-grow: 1;
+    height: 30px;
     -webkit-app-region: drag;
-    height: 100%;
-    width: 400px;
 }
 
 #login-page-top-container {
