@@ -20,5 +20,8 @@
   "homepage": "https://github.com/CheckCoder/youdao-note-electron#readme",
   "devDependencies": {
     "electron": "^11.2.0"
+  },
+  "dependencies": {
+    "darkreader": "^4.9.27"
   }
 }
