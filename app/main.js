@@ -1,9 +1,10 @@
-const { app, BrowserWindow, ipcMain, remote} = require('electron');
+const { app, BrowserWindow, ipcMain, remote, Tray, Menu} = require('electron');
 const path = require('path');
 
 const debug = /--debug/.test(process.argv[2]);
 
 let mainWindow = null;
+let tray = null;
 let appIcon = path.join(__dirname, '/res/icon/app-icon.png');
 
 function initialize () {
@@ -42,9 +43,30 @@ function initialize () {
         }
     }
 
+    function setTray () {
+        tray = new Tray(appIcon);
+        const contextMenu = Menu.buildFromTemplate([
+            { 
+                label: '退出',
+                click: () => {
+                    app.quit();
+                }
+            }
+        ]);
+        tray.setToolTip('有道云笔记');
+        tray.on('click', () => {
+            if (mainWindow.isMinimized()) {
+                mainWindow.maximize();
+            } else {
+                mainWindow.show();
+            }
+        });
+        tray.setContextMenu(contextMenu);
+    }
 
     app.on('ready', () => {
         createWindow();
+        setTray();
     });
 
     app.on('window-all-closed', () => {
@@ -81,12 +103,22 @@ ipcMain.handle('mainPageEvent', (evidence, ...args) => {
             }
             break;
         case 'close':
-            mainWindow.close();
-            mainWindow = null;
+            let page = args[1] || '';
+            if (page === 'main') {
+                mainWindow.hide();
+            } else {
+                mainWindow.close();
+                mainWindow = null;
+            }
             break;
         case 'intoLoginPage':
             mainWindow.restore();
             mainWindow.setSize(894, 450);
+            // mainWindow.setResizable(false);
+            break;
+        case 'intoMainPage':
+            mainWindow.setResizable(true);
+            mainWindow.maximize();
             break;
     }
 });
