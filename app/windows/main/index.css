@@ -27,10 +27,6 @@ html, body {
     -webkit-app-region: drag;
 }
 
-#login-page-top-container {
-    
-}
-
 #main-container {
     width: 100%;
     flex-grow: 1;
