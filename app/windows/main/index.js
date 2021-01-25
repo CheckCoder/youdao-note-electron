@@ -32,7 +32,7 @@ async function handleIframeContainerOnload () {
     } else if (href.includes('note.youdao.com/web')) {
         // 首页
         console.log('进入 web 页');
-        emitEvent('maximize');
+        emitEvent('intoMainPage');
 
         // 设置顶部区域可见性
         setCssForIframeContainer('.top-banner { display: none; }');
@@ -73,6 +73,13 @@ async function handleIframeContainerOnload () {
         setCssForIframeContainer('.content-container{ margin-top: 30px!important; border-top: 1px solid #e0e1e5; }');
         // 设置 empty 时背景色
         setCssForIframeContainer('drag-component .empty{ background-color: #ffffff; }');
+
+        // 夜间模式
+        // setCssForIframeContainer('.sidebar { background-color: rgb(30, 32, 33); }');
+        // setCssForIframeContainer('.sidebar .sidebar-item.selected { background-image: initial; background-color: rgb(14, 85, 166); border-color: rgb(13, 81, 161) transparent; }');
+        // setCssForIframeContainer('.file-tree .tree-title { color: rgb(166, 159, 147); } ');
+        // setCssForIframeContainer('html, img { filter: invert(1) hue-rotate(180deg); }');
+        // setCssForIframeContainer('img { opacity: 0.75; }');
 
         // 放置头像框
         let topRightElement = null;
@@ -151,6 +158,6 @@ function setStyleFromComputedStyle (element) {
     }
 }
 
-function emitEvent (type) {
-    ipcRenderer.invoke('mainPageEvent', type);
+function emitEvent (...args) {
+    ipcRenderer.invoke('mainPageEvent', ...args);
 }
