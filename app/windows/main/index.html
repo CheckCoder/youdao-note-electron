@@ -10,10 +10,13 @@
     <div id="container" class="vcontainer">
         <div id="top-container" class="hcontainer">
             <div id="top-grow-container"></div>
-            <img src="./../../res/icon/setting.svg" class="top-icon" draggable="false">
+            <!-- <img src="./../../res/icon/setting.svg" class="top-icon" draggable="false"> -->
+            <div class="top-icon top-close-icon" onclick="emitEvent('close')">
+                <img src="./../../res/icon/exit.svg" draggable="false">
+            </div>
             <img src="./../../res/icon/window-minimize.svg" class="top-icon" draggable="false" onclick="emitEvent('minimize')">
             <img src="./../../res/icon/window-restore.svg" id="resize-window-icon" class="top-icon" draggable="false" onclick="emitEvent('resize')">
-            <div class="top-icon top-close-icon" onclick="emitEvent('close')">
+            <div class="top-icon top-close-icon" onclick="emitEvent('close', 'main')">
                 <img src="./../../res/icon/window-close.svg" draggable="false">
             </div>
         </div>
@@ -28,7 +31,7 @@
                     <span></span>
                 </div>
             </div>
-            <iframe id="iframe-container" src="https://note.youdao.com/web/" onload="handleIframeContainerOnload()" frameborder="0">
+            <iframe id="iframe-container" src="https://note.youdao.com/web/" onload="handleIframeContainerOnload()" frameborder="0"></iframe>
         </div>
     </div>
 </body>
