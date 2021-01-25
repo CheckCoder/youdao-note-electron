@@ -103,6 +103,7 @@
 /** 加载动画 */
 .loader {
     position: relative;
+    width: 100px;
 }
 
 .loader span {
