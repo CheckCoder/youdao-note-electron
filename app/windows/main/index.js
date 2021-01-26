@@ -112,19 +112,23 @@ async function handleIframeContainerOnload () {
  * 设置 iframe container 夜间模式
  * @param {boolean} enable 是否启动夜间模式
  */
-let iframeContainerChildIframeElement = getIframeContainerDocument().querySelector('.detail-container iframe');
+let iframeContainerChildIframeElement = null;
+let iframeContainerChildIframeSrc = '';
 let iframeContainerClickListenerForNightMode = (event) => {
     let nowIframeElement = getIframeContainerDocument().querySelector('.detail-container iframe');
     if (!nowIframeElement) return;
-    if (nowIframeElement !== iframeContainerChildIframeElement || 
-        ( iframeContainerChildIframeElement && iframeContainerChildIframeElement.getAttribute('src') !== nowIframeElement.getAttribute('src'))
-        ) {
+    let nowIframeSrc = nowIframeElement.getAttribute('src');
+    console.log(iframeContainerChildIframeSrc);
+    console.log(nowIframeSrc);
+    if (nowIframeSrc !== iframeContainerChildIframeSrc) {
+        iframeContainerChildIframeElement = nowIframeElement;
+        iframeContainerChildIframeSrc = nowIframeSrc;
         console.log('change');
     }
 };
 function setIframeContainerNightMode ( enable = true) {
     if (enable) {
-        getIframeContainerDocument().addEventListener('click', iframeContainerClickListenerForNightMode);
+        getIframeContainerDocument().addEventListener('click', iframeContainerClickListenerForNightMode, true);
     }
 }
 
