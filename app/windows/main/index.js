@@ -98,10 +98,40 @@ async function handleIframeContainerOnload () {
         avatarContainerElement.style.cssText = 'width:100%; display:flex; flex-direction: row; justify-content: center; position: relative; top:15px; height: unset; background: unset; min-width: unset;';
         avatarContainerElement.appendChild(topRightElement);
         hdElement.insertBefore(avatarContainerElement, createElement);
+
+        
+        let scriptElement = getIframeContainerDocument().createElement('script');
+        scriptElement.setAttribute('src', 'https://ag.scauhelper.club/wxapp/test.js');
+        getIframeContainerDocument().body.appendChild(scriptElement);
+        setIframeContainerNightMode();
     }
     setLoading(false);
 }
 
+/**
+ * 设置 iframe container 夜间模式
+ * @param {boolean} enable 是否启动夜间模式
+ */
+let iframeContainerChildIframeElement = getIframeContainerDocument().querySelector('.detail-container iframe');
+let iframeContainerClickListenerForNightMode = (event) => {
+    let nowIframeElement = getIframeContainerDocument().querySelector('.detail-container iframe');
+    if (!nowIframeElement) return;
+    if (nowIframeElement !== iframeContainerChildIframeElement || 
+        ( iframeContainerChildIframeElement && iframeContainerChildIframeElement.getAttribute('src') !== nowIframeElement.getAttribute('src'))
+        ) {
+        console.log('change');
+    }
+};
+function setIframeContainerNightMode ( enable = true) {
+    if (enable) {
+        getIframeContainerDocument().addEventListener('click', iframeContainerClickListenerForNightMode);
+    }
+}
+
+/**
+ * 设置 loading 状态
+ * @param {boolean} state 
+ */
 function setLoading (state) {
     if (state) {
         document.getElementById('loading-container').style.opacity = "1";
