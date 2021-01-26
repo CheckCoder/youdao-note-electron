@@ -109,6 +109,7 @@ ipcMain.handle('mainPageEvent', (evidence, ...args) => {
             } else {
                 mainWindow.close();
                 mainWindow = null;
+                app.quit();
             }
             break;
         case 'intoLoginPage':
