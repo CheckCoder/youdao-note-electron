@@ -1,4 +1,6 @@
-if (!DarkReader) {
+try {
+    DarkReader;
+} catch (error) { // DarkReader not exist
     /**
      * Dark Reader v4.9.27
      * https://darkreader.org/

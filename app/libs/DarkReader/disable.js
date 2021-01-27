@@ -1,3 +1,5 @@
-if (DarkReader) {
+try {
     DarkReader.disable();
+} catch (error) {
+
 }
