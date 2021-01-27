@@ -1,1 +1,3 @@
-DarkReader.disable();
+if (DarkReader) {
+    DarkReader.disable();
+}
