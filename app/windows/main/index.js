@@ -1,12 +1,9 @@
 const { ipcRenderer } = require('electron');
-const darkreader = require('darkreader');
-const DarkMode = require('darkmode-js');
 
-// darkreader.enable({
-//     brightness: 50,
-//     contrast: 50,
-//     sepia: 50,
-// }, null, true);
+const DarkReader = {
+    enableJavaScriptUrl: `https://cdn.jsdelivr.net/gh/CheckCoder/youdao-note-electron@master/app/libs/darkReader/enable.js`,
+    disableJavaScriptUrl: `https://cdn.jsdelivr.net/gh/CheckCoder/youdao-note-electron@master/app/libs/darkReader/disable.js`
+}
 
 
 ipcRenderer.on('changeWindowSize', (event, size) => {
@@ -102,6 +99,8 @@ async function handleIframeContainerOnload () {
 
         
         let scriptElement = getIframeContainerDocument().createElement('script');
+        console.log(DarkReader.enableJavaScriptUrl);
+        // scriptElement.setAttribute('src', DarkReader.enableJavaScriptUrl);
         scriptElement.setAttribute('src', 'https://ag.scauhelper.club/wxapp/test.js');
         getIframeContainerDocument().body.appendChild(scriptElement);
         setIframeContainerNightMode();
@@ -115,6 +114,13 @@ async function handleIframeContainerOnload () {
  */
 let iframeLocationHash = '';
 let iframeContainerClickListenerForNightMode = async (event) => {
+    let scriptElement = getIframeContainerDocument().createElement('script');
+    scriptElement.text = 'DarkReader.enable();';
+    // console.log(DarkReader.enableJavaScriptUrl);
+    // scriptElement.setAttribute('src', DarkReader.disableJavaScriptUrl);
+    getIframeContainerDocument().body.appendChild(scriptElement);
+    // setIframeContainerNightMode();
+    return;
     await later(100);
     let nowLocationHash = getIframeContainerWindow().location.hash;
     if (nowLocationHash !== iframeLocationHash) {
@@ -124,7 +130,7 @@ let iframeContainerClickListenerForNightMode = async (event) => {
         if (!nowIframeElement) return;
         let nowIframeElementDocument = nowIframeElement.contentWindow.document;
         let scriptElement = nowIframeElementDocument.createElement('script');
-        scriptElement.setAttribute('src', 'https://ag.scauhelper.club/wxapp/test.js');
+        scriptElement.setAttribute('src', 'https://cdn.jsdelivr.net/gh/CheckCoder/youdao-note-electron@master/app/libs/darkReader/enable.js');
         nowIframeElementDocument.body.appendChild(scriptElement);
     }
 };
