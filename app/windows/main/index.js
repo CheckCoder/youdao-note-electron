@@ -77,13 +77,6 @@ async function handleIframeContainerOnload () {
         // 设置 empty 时背景色
         setCssForIframeContainer('drag-component .empty{ background-color: #ffffff; }');
 
-        // 夜间模式
-        // setCssForIframeContainer('.sidebar { background-color: rgb(30, 32, 33); }');
-        // setCssForIframeContainer('.sidebar .sidebar-item.selected { background-image: initial; background-color: rgb(14, 85, 166); border-color: rgb(13, 81, 161) transparent; }');
-        // setCssForIframeContainer('.file-tree .tree-title { color: rgb(166, 159, 147); } ');
-        // setCssForIframeContainer('html, img { filter: invert(1) hue-rotate(180deg); }');
-        // setCssForIframeContainer('img { opacity: 0.75; }');
-
         // 放置头像框
         let topRightElement = null;
         let createElement = null;
@@ -102,6 +95,7 @@ async function handleIframeContainerOnload () {
         avatarContainerElement.appendChild(topRightElement);
         hdElement.insertBefore(avatarContainerElement, createElement);
 
+        // 夜间模式
         setNightMode(config.nightMode.enable);
     }
     setLoading(false);
@@ -120,6 +114,10 @@ let iframeContainerClickListenerForNightMode = async (event) => {
         setNightModeScriptToDocument(getIframeContainerChildIframeDocument());
         await later(500);
         setNightModeScriptToDocument(getIframeContainerChildIframeDocument());
+        await later(1500);
+        setNightModeScriptToDocument(getIframeContainerChildIframeDocument());
+        await later(1500);
+        setNightModeScriptToDocument(getIframeContainerChildIframeDocument());
     }
 };
 async function setNightMode ( enable = true) {
@@ -130,6 +128,10 @@ async function setNightMode ( enable = true) {
         setNightModeScriptToDocument(getIframeContainerDocument());
         setNightModeScriptToDocument(getIframeContainerChildIframeDocument());
         await later(500);
+        setNightModeScriptToDocument(getIframeContainerChildIframeDocument());
+        await later(1500);
+        setNightModeScriptToDocument(getIframeContainerChildIframeDocument());
+        await later(1500);
         setNightModeScriptToDocument(getIframeContainerChildIframeDocument());
     } else {
         config.nightMode.enable = false;
