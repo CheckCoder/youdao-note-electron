@@ -1,5 +1,6 @@
 const { ipcRenderer } = require('electron');
 const darkreader = require('darkreader');
+const DarkMode = require('darkmode-js');
 
 // darkreader.enable({
 //     brightness: 50,
@@ -112,22 +113,24 @@ async function handleIframeContainerOnload () {
  * 设置 iframe container 夜间模式
  * @param {boolean} enable 是否启动夜间模式
  */
-let iframeContainerChildIframeElement = null;
-let iframeContainerChildIframeSrc = '';
-let iframeContainerClickListenerForNightMode = (event) => {
-    let nowIframeElement = getIframeContainerDocument().querySelector('.detail-container iframe');
-    if (!nowIframeElement) return;
-    let nowIframeSrc = nowIframeElement.getAttribute('src');
-    console.log(iframeContainerChildIframeSrc);
-    console.log(nowIframeSrc);
-    if (nowIframeSrc !== iframeContainerChildIframeSrc) {
-        iframeContainerChildIframeElement = nowIframeElement;
-        iframeContainerChildIframeSrc = nowIframeSrc;
+let iframeLocationHash = '';
+let iframeContainerClickListenerForNightMode = async (event) => {
+    await later(100);
+    let nowLocationHash = getIframeContainerWindow().location.hash;
+    if (nowLocationHash !== iframeLocationHash) {
         console.log('change');
+        iframeLocationHash = nowLocationHash;
+        let nowIframeElement = getIframeContainerDocument().querySelector('.detail-container iframe');
+        if (!nowIframeElement) return;
+        let nowIframeElementDocument = nowIframeElement.contentWindow.document;
+        let scriptElement = nowIframeElementDocument.createElement('script');
+        scriptElement.setAttribute('src', 'https://ag.scauhelper.club/wxapp/test.js');
+        nowIframeElementDocument.body.appendChild(scriptElement);
     }
 };
 function setIframeContainerNightMode ( enable = true) {
     if (enable) {
+        iframeLocationHash = getIframeContainerWindow().location.hash;
         getIframeContainerDocument().addEventListener('click', iframeContainerClickListenerForNightMode, true);
     }
 }
@@ -174,6 +177,13 @@ function setElementVisibilityById (id, visible) {
  */
 function getIframeContainerDocument () {
     return document.getElementById('iframe-container').contentWindow.document;
+}
+
+/**
+ * 获取 iframe-container window
+ */
+function getIframeContainerWindow () {
+    return document.getElementById('iframe-container').contentWindow;
 }
 
 /**
