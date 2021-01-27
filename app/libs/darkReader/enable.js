@@ -4235,7 +4235,7 @@
     exports.setFetchMethod = setFetchMethod$1;
 
     Object.defineProperty(exports, '__esModule', { value: true });
-
-    setFetchMethod(window.fetch);
-    enable();
 })));
+
+DarkReader.setFetchMethod(window.fetch);
+DarkReader.enable();
