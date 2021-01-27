@@ -116,8 +116,6 @@ let iframeContainerClickListenerForNightMode = async (event) => {
         setNightModeScriptToDocument(getIframeContainerChildIframeDocument());
         await later(1500);
         setNightModeScriptToDocument(getIframeContainerChildIframeDocument());
-        await later(1500);
-        setNightModeScriptToDocument(getIframeContainerChildIframeDocument());
     }
 };
 async function setNightMode ( enable = true) {
@@ -128,8 +126,6 @@ async function setNightMode ( enable = true) {
         setNightModeScriptToDocument(getIframeContainerDocument());
         setNightModeScriptToDocument(getIframeContainerChildIframeDocument());
         await later(500);
-        setNightModeScriptToDocument(getIframeContainerChildIframeDocument());
-        await later(1500);
         setNightModeScriptToDocument(getIframeContainerChildIframeDocument());
         await later(1500);
         setNightModeScriptToDocument(getIframeContainerChildIframeDocument());
