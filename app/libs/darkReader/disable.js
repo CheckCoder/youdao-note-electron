@@ -1,1 +1,0 @@
-DarkReader.disable();
