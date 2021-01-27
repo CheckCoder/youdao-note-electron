@@ -11,7 +11,10 @@
         <div id="top-container" class="hcontainer">
             <div id="top-grow-container"></div>
             <!-- <img src="./../../res/icon/setting.svg" class="top-icon" draggable="false"> -->
-            <div class="top-icon top-close-icon" onclick="emitEvent('close')">
+            <!-- <div class="top-icon top-close-icon" onclick="emitEvent('close')">
+                <img src="./../../res/icon/exit.svg" draggable="false">
+            </div> -->
+            <div class="top-icon top-close-icon" onclick="setNightMode(!config.nightMode.enable)">
                 <img src="./../../res/icon/exit.svg" draggable="false">
             </div>
             <img src="./../../res/icon/window-minimize.svg" class="top-icon" draggable="false" onclick="emitEvent('minimize')">

@@ -1,10 +1,15 @@
 const { ipcRenderer } = require('electron');
 
 const DarkReader = {
-    enableJavaScriptUrl: `https://cdn.jsdelivr.net/gh/CheckCoder/youdao-note-electron@master/app/libs/darkReader/enable.js`,
-    disableJavaScriptUrl: `https://cdn.jsdelivr.net/gh/CheckCoder/youdao-note-electron@master/app/libs/darkReader/disable.js`
+    enableJsFileUrl: `https://cdn.jsdelivr.net/gh/CheckCoder/youdao-note-electron@master/app/libs/DarkReader/enable.js`,
+    disableJsFileUrl: `https://cdn.jsdelivr.net/gh/CheckCoder/youdao-note-electron@master/app/libs/DarkReader/disable.js`
 }
 
+let config = {
+    nightMode: {
+        enable: true
+    }
+};
 
 ipcRenderer.on('changeWindowSize', (event, size) => {
     document.getElementById('resize-window-icon').setAttribute('src', `./../../res/icon/window-${size}.svg`);
@@ -97,13 +102,7 @@ async function handleIframeContainerOnload () {
         avatarContainerElement.appendChild(topRightElement);
         hdElement.insertBefore(avatarContainerElement, createElement);
 
-        
-        let scriptElement = getIframeContainerDocument().createElement('script');
-        console.log(DarkReader.enableJavaScriptUrl);
-        // scriptElement.setAttribute('src', DarkReader.enableJavaScriptUrl);
-        scriptElement.setAttribute('src', 'https://ag.scauhelper.club/wxapp/test.js');
-        getIframeContainerDocument().body.appendChild(scriptElement);
-        setIframeContainerNightMode();
+        setNightMode(config.nightMode.enable);
     }
     setLoading(false);
 }
@@ -114,31 +113,41 @@ async function handleIframeContainerOnload () {
  */
 let iframeLocationHash = '';
 let iframeContainerClickListenerForNightMode = async (event) => {
-    let scriptElement = getIframeContainerDocument().createElement('script');
-    scriptElement.text = 'DarkReader.enable();';
-    // console.log(DarkReader.enableJavaScriptUrl);
-    // scriptElement.setAttribute('src', DarkReader.disableJavaScriptUrl);
-    getIframeContainerDocument().body.appendChild(scriptElement);
-    // setIframeContainerNightMode();
-    return;
     await later(100);
     let nowLocationHash = getIframeContainerWindow().location.hash;
     if (nowLocationHash !== iframeLocationHash) {
-        console.log('change');
         iframeLocationHash = nowLocationHash;
-        let nowIframeElement = getIframeContainerDocument().querySelector('.detail-container iframe');
-        if (!nowIframeElement) return;
-        let nowIframeElementDocument = nowIframeElement.contentWindow.document;
-        let scriptElement = nowIframeElementDocument.createElement('script');
-        scriptElement.setAttribute('src', 'https://cdn.jsdelivr.net/gh/CheckCoder/youdao-note-electron@master/app/libs/darkReader/enable.js');
-        nowIframeElementDocument.body.appendChild(scriptElement);
+        setNightModeScriptToDocument(getIframeContainerChildIframeDocument());
+        await later(500);
+        setNightModeScriptToDocument(getIframeContainerChildIframeDocument());
     }
 };
-function setIframeContainerNightMode ( enable = true) {
+async function setNightMode ( enable = true) {
     if (enable) {
+        config.nightMode.enable = true;
         iframeLocationHash = getIframeContainerWindow().location.hash;
         getIframeContainerDocument().addEventListener('click', iframeContainerClickListenerForNightMode, true);
+        setNightModeScriptToDocument(getIframeContainerDocument());
+        setNightModeScriptToDocument(getIframeContainerChildIframeDocument());
+        await later(500);
+        setNightModeScriptToDocument(getIframeContainerChildIframeDocument());
+    } else {
+        config.nightMode.enable = false;
+        setNightModeScriptToDocument(getIframeContainerDocument(), false);
+        setNightModeScriptToDocument(getIframeContainerChildIframeDocument(), false);
     }
+}
+
+/**
+ * 给文档设置夜间模式脚本
+ * @param {document} document 文档
+ * @param {boolean} enable 是否启用夜间模式
+ */
+function setNightModeScriptToDocument (document, enable = true) {
+    if (!document || !document.body) return;
+    let scriptElement = document.createElement('script');
+    scriptElement.setAttribute('src', enable ? DarkReader.enableJsFileUrl : DarkReader.disableJsFileUrl);
+    document.body.appendChild(scriptElement);
 }
 
 /**
@@ -185,6 +194,14 @@ function getIframeContainerDocument () {
     return document.getElementById('iframe-container').contentWindow.document;
 }
 
+/**
+ * 获取 iframe-container 子 iframe document
+ */
+function getIframeContainerChildIframeDocument () {
+    let element = getIframeContainerDocument().querySelector('.detail-container iframe');
+    if (!element) return null;
+    return element.contentWindow.document;
+}
 /**
  * 获取 iframe-container window
  */
