@@ -143,9 +143,11 @@ async function setNightMode ( enable = true) {
  */
 function setNightModeScriptToDocument (document, enable = true) {
     if (!document || !document.body) return;
-    let scriptElement = document.createElement('script');
-    scriptElement.setAttribute('src', enable ? DarkReader.enableJsFileUrl : DarkReader.disableJsFileUrl);
-    document.body.appendChild(scriptElement);
+    if (config.nightMode.enable === enable) {
+        let scriptElement = document.createElement('script');
+        scriptElement.setAttribute('src', enable ? DarkReader.enableJsFileUrl : DarkReader.disableJsFileUrl);
+        document.body.appendChild(scriptElement);
+    }
 }
 
 /**
