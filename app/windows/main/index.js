@@ -12,7 +12,8 @@ let config = {
 };
 
 ipcRenderer.on('changeWindowSize', (event, size) => {
-    document.getElementById('resize-window-icon').setAttribute('src', `./../../res/icon/window-${size}.svg`);
+    document.getElementsByClassName('resize-window-icon')[0].setAttribute('src', `./../../res/icon/window-${size}.svg`);
+    document.getElementsByClassName('resize-window-icon')[1].setAttribute('src', `./../../res/icon/window-${size}.svg`);
 });
 
 /**
@@ -63,7 +64,7 @@ async function handleIframeContainerOnload () {
         // 设置鼠标样式
         setCssForIframeContainer('img, a, i, span, div, li { cursor: default!important; }');
         // 侧边栏下移
-        setCssForIframeContainer('.sidebar .sidebar-content { top:170px; bottom:26px; border-top: 1px solid #e0e1e5; }');
+        setCssForIframeContainer('.sidebar .sidebar-content { top:170px; bottom:26px!important; border-top: 1px solid #e0e1e5; }');
         // 移除 sidebar-ft
         setCssForIframeContainer('.sidebar .sidebar-ft { display: none; }');
 
@@ -121,6 +122,8 @@ let iframeContainerClickListenerForNightMode = async (event) => {
 async function setNightMode ( enable = true) {
     if (enable) {
         config.nightMode.enable = true;
+        document.getElementById('top-right-container').style.display = 'none';
+        document.getElementById('top-right-container-night').style.display = '';
         iframeLocationHash = getIframeContainerWindow().location.hash;
         getIframeContainerDocument().addEventListener('click', iframeContainerClickListenerForNightMode, true);
         setNightModeScriptToDocument(getIframeContainerDocument());
@@ -129,8 +132,12 @@ async function setNightMode ( enable = true) {
         setNightModeScriptToDocument(getIframeContainerChildIframeDocument());
         await later(1500);
         setNightModeScriptToDocument(getIframeContainerChildIframeDocument());
+        await later(1500);
+        setNightModeScriptToDocument(getIframeContainerChildIframeDocument());
     } else {
         config.nightMode.enable = false;
+        document.getElementById('top-right-container').style.display = '';
+        document.getElementById('top-right-container-night').style.display = 'none';
         setNightModeScriptToDocument(getIframeContainerDocument(), false);
         setNightModeScriptToDocument(getIframeContainerChildIframeDocument(), false);
     }

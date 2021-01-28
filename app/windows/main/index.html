@@ -10,17 +10,27 @@
     <div id="container" class="vcontainer">
         <div id="top-container" class="hcontainer">
             <div id="top-grow-container"></div>
-            <!-- <img src="./../../res/icon/setting.svg" class="top-icon" draggable="false"> -->
-            <!-- <div class="top-icon top-close-icon" onclick="emitEvent('close')">
-                <img src="./../../res/icon/exit.svg" draggable="false">
-            </div> -->
-            <div class="top-icon top-close-icon" onclick="setNightMode(!config.nightMode.enable)">
-                <img src="./../../res/icon/exit.svg" draggable="false">
+            <div id="top-right-container" class="hcontainer">
+                <img src="./../../res/icon/night-mode.svg" class="top-icon" draggable="false"  onclick="setNightMode(!config.nightMode.enable)">
+                <div class="top-icon top-close-icon" onclick="emitEvent('close')">
+                    <img src="./../../res/icon/exit.svg" draggable="false">
+                </div>
+                <img src="./../../res/icon/window-minimize.svg" class="top-icon" draggable="false" onclick="emitEvent('minimize')">
+                <img src="./../../res/icon/window-restore.svg" class="top-icon resize-window-icon" draggable="false" onclick="emitEvent('resize')">
+                <div class="top-icon top-close-icon" onclick="emitEvent('close', 'main')">
+                    <img src="./../../res/icon/window-close.svg" draggable="false">
+                </div>
             </div>
-            <img src="./../../res/icon/window-minimize.svg" class="top-icon" draggable="false" onclick="emitEvent('minimize')">
-            <img src="./../../res/icon/window-restore.svg" id="resize-window-icon" class="top-icon" draggable="false" onclick="emitEvent('resize')">
-            <div class="top-icon top-close-icon" onclick="emitEvent('close', 'main')">
-                <img src="./../../res/icon/window-close.svg" draggable="false">
+            <div id="top-right-container-night" class="hcontainer" style="display: none;">
+                <img src="./../../res/icon/sun-mode.svg" class="top-icon-night" draggable="false"  onclick="setNightMode(!config.nightMode.enable)">
+                <div class="top-icon-night top-close-icon" onclick="emitEvent('close')">
+                    <img src="./../../res/icon/exit.svg" draggable="false">
+                </div>
+                <img src="./../../res/icon/window-minimize.svg" class="top-icon-night" draggable="false" onclick="emitEvent('minimize')">
+                <img src="./../../res/icon/window-restore.svg" class="top-icon-night resize-window-icon" draggable="false" onclick="emitEvent('resize')">
+                <div class="top-icon-night top-close-icon" onclick="emitEvent('close', 'main')">
+                    <img src="./../../res/icon/window-close.svg" draggable="false">
+                </div>
             </div>
         </div>
         <div id="main-container">

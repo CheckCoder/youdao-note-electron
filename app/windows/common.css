@@ -163,7 +163,7 @@
 
 
 /** 顶部按钮 */
-.top-icon {
+.top-icon, .top-icon-night {
     width: 14px;
     height: 28px;
     padding: 0px 15px;
@@ -171,12 +171,26 @@
     -webkit-user-select: none;
 }
 
+.top-icon-night {
+    filter: invert(100%) sepia(100%) saturate(0%) hue-rotate(95deg) brightness(107%) contrast(105%);
+}
+
 .top-icon:hover {
     background: rgba(0, 0, 0, 0.1);
 }
 
+.top-icon-night:hover {
+    background: rgba(147, 143, 143, 1);
+    filter: none;
+}
+
 .top-icon:active {
     background: rgba(0, 0, 0, 0.2);;
+}
+
+.top-icon-night:active {
+    background: rgba(75, 75, 75, 1);
+    filter: none;
 }
 
 .top-close-icon img {
