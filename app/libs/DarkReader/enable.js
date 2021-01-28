@@ -4241,5 +4241,7 @@ try {
     })));
 }
 
-DarkReader.setFetchMethod(window.fetch);
-DarkReader.enable();
+if ( !DarkReader.isEnabled() ) {
+    DarkReader.setFetchMethod(window.fetch);
+    DarkReader.enable();
+}
