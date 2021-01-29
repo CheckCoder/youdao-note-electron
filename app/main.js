@@ -64,24 +64,35 @@ function initialize () {
         tray.setContextMenu(contextMenu);
     }
 
-    app.on('ready', () => {
-        createWindow();
-        setTray();
-    });
-
-    app.on('window-all-closed', () => {
-        if (process.platform !== 'darwin') {
-            app.quit();
-        }
-    });
-
-    app.on('activate', () => {
-        if (mainWindow === null) {
-            createWindow();
-        }
-    });
+    const gotTheLock = app.requestSingleInstanceLock();
+    if (!gotTheLock) {
+        app.quit();
+    } else {
+        app.on('second-instance', (event, commandLine, workingDirectory) => {
+            if (mainWindow) {
+                mainWindow.show();
+            }
+        });
     
-    app.commandLine.appendSwitch('disable-site-isolation-trials');
+        app.on('ready', () => {
+            createWindow();
+            setTray();
+        });
+    
+        app.on('window-all-closed', () => {
+            if (process.platform !== 'darwin') {
+                app.quit();
+            }
+        });
+    
+        app.on('activate', () => {
+            if (mainWindow === null) {
+                createWindow();
+            }
+        });
+        
+        app.commandLine.appendSwitch('disable-site-isolation-trials');
+    }
 }
 
 initialize();

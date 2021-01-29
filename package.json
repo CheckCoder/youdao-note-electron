@@ -11,15 +11,26 @@
   "build": {
     "appId": "youdao-note-electron",
     "mac": {
-      "target": ["dmg", "zip"],
+      "target": [
+        "dmg",
+        "zip"
+      ],
       "icon": "app/res/icon/app-icon.png"
     },
     "win": {
-      "target": ["nsis", "zip"],
+      "target": [
+        "nsis",
+        "zip"
+      ],
       "icon": "app/res/icon/app-icon.png"
     },
     "linux": {
-      "target": ["deb", "rpm", "snap", "AppImage"],
+      "target": [
+        "deb",
+        "rpm",
+        "snap",
+        "AppImage"
+      ],
       "icon": "app/res/icon/app-icon.png"
     }
   },
