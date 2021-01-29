@@ -117,6 +117,8 @@ let iframeContainerClickListenerForNightMode = async (event) => {
         setNightModeScriptToDocument(getIframeContainerChildIframeDocument());
         await later(1500);
         setNightModeScriptToDocument(getIframeContainerChildIframeDocument());
+        await later(1500);
+        setNightModeScriptToDocument(getIframeContainerChildIframeDocument());
     }
 };
 async function setNightMode ( enable = true) {
@@ -126,6 +128,11 @@ async function setNightMode ( enable = true) {
         document.getElementById('top-right-container-night').style.display = '';
         iframeLocationHash = getIframeContainerWindow().location.hash;
         getIframeContainerDocument().addEventListener('click', iframeContainerClickListenerForNightMode, true);
+        getIframeContainerDocument().onkeyup = function (e) {
+            if (e.keyCode === 13) {
+                iframeContainerClickListenerForNightMode();
+            }
+        };
         setNightModeScriptToDocument(getIframeContainerDocument());
         setNightModeScriptToDocument(getIframeContainerChildIframeDocument());
         await later(500);
@@ -134,12 +141,16 @@ async function setNightMode ( enable = true) {
         setNightModeScriptToDocument(getIframeContainerChildIframeDocument());
         await later(1500);
         setNightModeScriptToDocument(getIframeContainerChildIframeDocument());
+        await later(5000);
+        setNightModeScriptToDocument(getIframeContainerChildIframeDocument());
     } else {
         config.nightMode.enable = false;
         document.getElementById('top-right-container').style.display = '';
         document.getElementById('top-right-container-night').style.display = 'none';
         setNightModeScriptToDocument(getIframeContainerDocument(), false);
         setNightModeScriptToDocument(getIframeContainerChildIframeDocument(), false);
+        getIframeContainerDocument().removeEventListener('click', iframeContainerClickListenerForNightMode);
+        getIframeContainerDocument().onkeyup = null;
     }
 }
 
