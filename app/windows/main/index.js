@@ -110,6 +110,7 @@ let iframeLocationHash = '';
 let iframeContainerClickListenerForNightMode = async (event) => {
     await later(100);
     let nowLocationHash = getIframeContainerWindow().location.hash;
+    setNightModeScriptToDocument(getIframeContainerNoteContentIframeDocument());
     if (nowLocationHash !== iframeLocationHash) {
         iframeLocationHash = nowLocationHash;
         setNightModeScriptToDocument(getIframeContainerChildIframeDocument());
@@ -148,6 +149,7 @@ async function setNightMode ( enable = true) {
         document.getElementById('top-right-container').style.display = '';
         document.getElementById('top-right-container-night').style.display = 'none';
         setNightModeScriptToDocument(getIframeContainerDocument(), false);
+        setNightModeScriptToDocument(getIframeContainerNoteContentIframeDocument(), false);
         setNightModeScriptToDocument(getIframeContainerChildIframeDocument(), false);
         getIframeContainerDocument().removeEventListener('click', iframeContainerClickListenerForNightMode);
         getIframeContainerDocument().onkeyup = null;
@@ -220,6 +222,16 @@ function getIframeContainerChildIframeDocument () {
     if (!element) return null;
     return element.contentWindow.document;
 }
+
+/**
+ * 获取 iframe-container note-content iframe document
+ */
+function getIframeContainerNoteContentIframeDocument () {
+    let element = getIframeContainerDocument().querySelector('.note-content');
+    if (!element) return null;
+    return element.contentWindow.document;
+}
+
 /**
  * 获取 iframe-container window
  */
