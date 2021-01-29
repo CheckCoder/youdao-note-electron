@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain, remote, Tray, Menu} = require('electron');
+const { app, BrowserWindow, ipcMain, remote, Tray, Menu, shell} = require('electron');
 const path = require('path');
 
 const debug = /--debug/.test(process.argv[2]);
@@ -89,6 +89,14 @@ function initialize () {
             if (mainWindow === null) {
                 createWindow();
             }
+        });
+
+        // 使用默认浏览器打开链接
+        app.on('web-contents-created', (e, webContents) => {
+            webContents.on('new-window', (event, url) => {
+                event.preventDefault();
+                shell.openExternal(url);
+            });
         });
         
         app.commandLine.appendSwitch('disable-site-isolation-trials');
