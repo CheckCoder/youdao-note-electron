@@ -1,15 +1,12 @@
 const { ipcRenderer } = require('electron');
+const Config = require('./../../libs/Config');
 
 const DarkReader = {
     enableJsFileUrl: `https://cdn.jsdelivr.net/gh/CheckCoder/youdao-note-electron@master/app/libs/DarkReader/enable.js`,
     disableJsFileUrl: `https://cdn.jsdelivr.net/gh/CheckCoder/youdao-note-electron@master/app/libs/DarkReader/disable.js`
 }
 
-let config = {
-    nightMode: {
-        enable: true
-    }
-};
+let config = null;
 
 ipcRenderer.on('changeWindowSize', (event, size) => {
     document.getElementsByClassName('resize-window-icon')[0].setAttribute('src', `./../../res/icon/window-${size}.svg`);
@@ -97,6 +94,7 @@ async function handleIframeContainerOnload () {
         hdElement.insertBefore(avatarContainerElement, createElement);
 
         // 夜间模式
+        config = Config.getSync();
         setNightMode(config.nightMode.enable);
     }
     setLoading(false);
@@ -125,6 +123,7 @@ let iframeContainerClickListenerForNightMode = async (event) => {
 async function setNightMode ( enable = true) {
     if (enable) {
         config.nightMode.enable = true;
+        Config.setSync(config);
         document.getElementById('top-right-container').style.display = 'none';
         document.getElementById('top-right-container-night').style.display = '';
         iframeLocationHash = getIframeContainerWindow().location.hash;
@@ -146,6 +145,7 @@ async function setNightMode ( enable = true) {
         setNightModeScriptToDocument(getIframeContainerChildIframeDocument());
     } else {
         config.nightMode.enable = false;
+        Config.setSync(config);
         document.getElementById('top-right-container').style.display = '';
         document.getElementById('top-right-container-night').style.display = 'none';
         setNightModeScriptToDocument(getIframeContainerDocument(), false);
